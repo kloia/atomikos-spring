@@ -45,7 +45,7 @@ public class AccountDataSourceConfiguration {
     }
 
 
-    @Bean(name = "AccountDataSourceConfig")
+    @Bean(name = "AccountDataSourceConfiguration")
 //    @Primary
     public LocalContainerEntityManagerFactoryBean accountEntityManager(
             @Qualifier("accountEntityManagerFactoryBuilder") EntityManagerFactoryBuilder accountEntityManagerFactoryBuilder,
@@ -80,7 +80,7 @@ public class AccountDataSourceConfiguration {
 
         AtomikosDataSourceBean xaDataSource = new AtomikosDataSourceBean();
         xaDataSource.setXaDataSource(ds);
-        xaDataSource.setUniqueResourceName("xads2");
+        xaDataSource.setUniqueResourceName("xa_account");
         return xaDataSource;
     }
 

@@ -45,7 +45,7 @@ public class CustomerDataSourceConfiguration {
     }
 
 
-    @Bean(name = "CustomerDataSourceConfig")
+    @Bean(name = "CustomerDataSourceConfiguration")
     @Primary
     public LocalContainerEntityManagerFactoryBean getPostgresEntityManager(
             @Qualifier("customerEntityManagerFactoryBuilder") EntityManagerFactoryBuilder customerEntityManagerFactoryBuilder,
@@ -80,7 +80,7 @@ public class CustomerDataSourceConfiguration {
 
         AtomikosDataSourceBean xaDataSource = new AtomikosDataSourceBean();
         xaDataSource.setXaDataSource(ds);
-        xaDataSource.setUniqueResourceName("xads1");
+        xaDataSource.setUniqueResourceName("xa_customer");
         return xaDataSource;
     }
 
