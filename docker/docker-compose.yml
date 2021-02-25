@@ -1,34 +1,60 @@
 version: '3'
 
 services:
-  customer:
-    image: postgres
+  customer-oracle:
+    image: n11com/oracle-xe-11g
+    container_name: customer-oracle-db
     ports:
-    - "5432:5432"
+      - "1521:1521"
     environment:
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: postgres
-      POSTGRES_DB: customer
+      - ORACLE_ALLOW_REMOTE=true
+      - USERNAME=customer
+      - PASSWORD=customer
     volumes:
       - ./docker-entrypoint-initdb.d.customer:/docker-entrypoint-initdb.d
-    command:
-      - "postgres"
-      - "-c"
-      - "max_prepared_transactions=100"
 
-
-  account:
-    image: postgres
+  account-oracle:
+    image: n11com/oracle-xe-11g
+    container_name: account-oracle-db
     ports:
-    - "5433:5432"
+      - "1522:1521"
     environment:
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: postgres
-      POSTGRES_DB: account
+      - ORACLE_ALLOW_REMOTE=true
+      - USERNAME=account
+      - PASSWORD=account
     volumes:
       - ./docker-entrypoint-initdb.d.account:/docker-entrypoint-initdb.d
-    command:
-      - "postgres"
-      - "-c"
-      - "max_prepared_transactions=100"
 
+
+
+#  customer-postgres:
+#    image: postgres
+#    ports:
+#    - "5432:5432"
+#    environment:
+#      POSTGRES_USER: postgres
+#      POSTGRES_PASSWORD: postgres
+#      POSTGRES_DB: customer
+#    volumes:
+#      - ./docker-entrypoint-initdb.d.customer:/docker-entrypoint-initdb.d
+#    command:
+#      - "postgres"
+#      - "-c"
+#      - "max_prepared_transactions=100"
+#
+#
+#  account-postgres:
+#    image: postgres
+#    ports:
+#    - "5433:5432"
+#    environment:
+#      POSTGRES_USER: postgres
+#      POSTGRES_PASSWORD: postgres
+#      POSTGRES_DB: account
+#    volumes:
+#      - ./docker-entrypoint-initdb.d.account:/docker-entrypoint-initdb.d
+#    command:
+#      - "postgres"
+#      - "-c"
+#      - "max_prepared_transactions=100"
+#

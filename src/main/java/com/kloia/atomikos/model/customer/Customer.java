@@ -19,8 +19,8 @@ import javax.validation.constraints.NotNull;
 @AllArgsConstructor
 @Builder
 @Entity
-@Table(name = "customer", schema = "public")
-@SequenceGenerator(name = "customer_id_seq", schema = "public", sequenceName = "customer_id_seq", allocationSize = 1)
+@Table(name = "customer", schema = "customer")
+@SequenceGenerator(name = "customer_id_seq", schema = "customer", sequenceName = "customer_id_seq", allocationSize = 1)
 public class Customer {
 
     @Id

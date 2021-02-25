@@ -1,6 +1,6 @@
 package com.kloia.atomikos.configuration;
 
-import org.postgresql.xa.PGXADataSource;
+import oracle.jdbc.xa.client.OracleXADataSource;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.autoconfigure.jdbc.DataSourceProperties;
 import org.springframework.boot.context.properties.ConfigurationProperties;
@@ -14,6 +14,7 @@ import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
 import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter;
 
 import javax.sql.DataSource;
+import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -27,8 +28,8 @@ public class CustomerDataSourceConfiguration {
 
     public Map<String, String> customerJpaProperties() {
         Map<String, String> customerJpaProperties = new HashMap<>();
-        customerJpaProperties.put("hibernate.hbm2ddl.auto", "validate");
-        customerJpaProperties.put("hibernate.dialect", "org.hibernate.dialect.PostgreSQLDialect");
+        customerJpaProperties.put("hibernate.hbm2ddl.auto", "create");
+        customerJpaProperties.put("hibernate.dialect", "org.hibernate.dialect.Oracle10gDialect");
         customerJpaProperties.put("hibernate.show_sql", "true");
         customerJpaProperties.put("hibernate.temp.use_jdbc_metadata_defaults", "false");
         customerJpaProperties.put("hibernate.transaction.jta.platform", "com.atomikos.icatch.jta.hibernate4.AtomikosPlatform");
@@ -49,12 +50,12 @@ public class CustomerDataSourceConfiguration {
     @Primary
     public LocalContainerEntityManagerFactoryBean getPostgresEntityManager(
             @Qualifier("customerEntityManagerFactoryBuilder") EntityManagerFactoryBuilder customerEntityManagerFactoryBuilder,
-            @Qualifier("customerDataSource") DataSource postgresDataSource
+            @Qualifier("customerDataSource") DataSource customerDataSource
     ) {
         return customerEntityManagerFactoryBuilder
-                .dataSource(postgresDataSource)
+                .dataSource(customerDataSource)
                 .packages("com.kloia.atomikos.model.customer")
-                .persistenceUnit("postgres")
+                .persistenceUnit("oracle")
                 .properties(customerJpaProperties())
                 .jta(true)
                 .build();
@@ -71,12 +72,13 @@ public class CustomerDataSourceConfiguration {
     @Bean("customerDataSource")
     @Primary
     @ConfigurationProperties("datasource.customer")
-    public DataSource customerDataSource(@Qualifier("customerDataSourceProperties") DataSourceProperties customerDataSourceProperties) {
+    public DataSource customerDataSource(@Qualifier("customerDataSourceProperties") DataSourceProperties customerDataSourceProperties) throws SQLException {
         // return customerDataSourceProperties.initializeDataSourceBuilder().build();
-        PGXADataSource ds = new PGXADataSource();
-        ds.setUrl(customerDataSourceProperties.getUrl());
+        OracleXADataSource ds = new OracleXADataSource();
+        ds.setURL(customerDataSourceProperties.getUrl());
         ds.setUser(customerDataSourceProperties.getUsername());
         ds.setPassword(customerDataSourceProperties.getPassword());
+        ds.setDatabaseName("CUSTOMER");
 
         AtomikosDataSourceBean xaDataSource = new AtomikosDataSourceBean();
         xaDataSource.setXaDataSource(ds);
