@@ -5,11 +5,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.SequenceGenerator;
-import javax.persistence.Table;
+import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.math.BigDecimal;
 
@@ -27,9 +23,11 @@ public class AccountCore {
     private Integer id;
 
     @NotNull
+    @Column(name = "CORE_CODE")
     private Integer coreCode;
 
     @NotNull
+    @Column(name = "CORE_BALANCE")
     private BigDecimal coreBalance;
 
 }

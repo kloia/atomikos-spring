@@ -83,7 +83,7 @@ public class AccountCoreDataSourceConfiguration {
 
         AtomikosDataSourceBean xaDataSource = new AtomikosDataSourceBean();
         xaDataSource.setXaDataSource(ds);
-        xaDataSource.setUniqueResourceName("xa_account");
+        xaDataSource.setUniqueResourceName("xa_core_account");
         return xaDataSource;
     }
 
