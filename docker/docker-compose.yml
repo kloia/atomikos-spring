@@ -2,7 +2,7 @@ version: '3'
 
 services:
   customer-oracle:
-    image: n11com/oracle-xe-11g
+    image: oracle-xe:18c
     container_name: customer-oracle-db
     ports:
       - "1521:1521"
@@ -10,11 +10,13 @@ services:
       - ORACLE_ALLOW_REMOTE=true
       - USERNAME=customer
       - PASSWORD=customer
+      - ORACLE_PWD=Oracle18
     volumes:
       - ./docker-entrypoint-initdb.d.customer:/docker-entrypoint-initdb.d
+      - ~/docker/oracle-xe01:/opt/oracle/oradata
 
   account-oracle:
-    image: n11com/oracle-xe-11g
+    image: oracle-xe:18c
     container_name: account-oracle-db
     ports:
       - "1522:1521"
@@ -22,9 +24,10 @@ services:
       - ORACLE_ALLOW_REMOTE=true
       - USERNAME=account
       - PASSWORD=account
+      - ORACLE_PWD=Oracle18
     volumes:
       - ./docker-entrypoint-initdb.d.account:/docker-entrypoint-initdb.d
-
+      - ~/docker/oracle-xe02:/opt/oracle/oradata
 
 
 #  customer-postgres:

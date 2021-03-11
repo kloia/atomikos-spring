@@ -27,7 +27,7 @@ public class AccountDataSourceConfiguration {
 
     public Map<String, String> accountJpaProperties() {
         Map<String, String> accountJpaProperties = new HashMap<>();
-        accountJpaProperties.put("hibernate.hbm2ddl.auto", "create");
+        accountJpaProperties.put("hibernate.hbm2ddl.auto", "validate");
         accountJpaProperties.put("hibernate.dialect", "org.hibernate.dialect.Oracle10gDialect");
         accountJpaProperties.put("hibernate.show_sql", "true");
         accountJpaProperties.put("hibernate.temp.use_jdbc_metadata_defaults", "false");
@@ -78,7 +78,7 @@ public class AccountDataSourceConfiguration {
         ds.setURL(accountDataSourceProperties.getUrl());
         ds.setUser(accountDataSourceProperties.getUsername());
         ds.setPassword(accountDataSourceProperties.getPassword());
-        ds.setDatabaseName("ACCOUNT");
+        ds.setDatabaseName("C##ACCOUNT");
 
         AtomikosDataSourceBean xaDataSource = new AtomikosDataSourceBean();
         xaDataSource.setXaDataSource(ds);

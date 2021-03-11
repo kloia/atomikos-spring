@@ -18,8 +18,8 @@ import java.math.BigDecimal;
 @AllArgsConstructor
 @Builder
 @Entity
-@Table(name = "account", schema = "account")
-@SequenceGenerator(name = "account_id_seq", schema = "account", sequenceName = "account_id_seq", allocationSize = 1)
+@Table(name = "ACCOUNT", schema = "C##ACCOUNT")
+@SequenceGenerator(name = "account_id_seq", schema = "C##ACCOUNT", sequenceName = "account_id_seq", allocationSize = 1)
 public class Account {
 
     @Id

@@ -1,7 +1,6 @@
 package com.kloia.atomikos.controller;
 
 import com.kloia.atomikos.exception.NotFoundException;
-import com.kloia.atomikos.exception.SystemException;
 import com.kloia.atomikos.model.account.Account;
 import com.kloia.atomikos.service.AccountService;
 import lombok.RequiredArgsConstructor;

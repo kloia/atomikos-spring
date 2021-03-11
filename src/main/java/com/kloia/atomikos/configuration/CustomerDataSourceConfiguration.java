@@ -28,7 +28,7 @@ public class CustomerDataSourceConfiguration {
 
     public Map<String, String> customerJpaProperties() {
         Map<String, String> customerJpaProperties = new HashMap<>();
-        customerJpaProperties.put("hibernate.hbm2ddl.auto", "create");
+        customerJpaProperties.put("hibernate.hbm2ddl.auto", "validate");
         customerJpaProperties.put("hibernate.dialect", "org.hibernate.dialect.Oracle10gDialect");
         customerJpaProperties.put("hibernate.show_sql", "true");
         customerJpaProperties.put("hibernate.temp.use_jdbc_metadata_defaults", "false");
@@ -78,7 +78,7 @@ public class CustomerDataSourceConfiguration {
         ds.setURL(customerDataSourceProperties.getUrl());
         ds.setUser(customerDataSourceProperties.getUsername());
         ds.setPassword(customerDataSourceProperties.getPassword());
-        ds.setDatabaseName("CUSTOMER");
+        ds.setDatabaseName("C##CUSTOMER");
 
         AtomikosDataSourceBean xaDataSource = new AtomikosDataSourceBean();
         xaDataSource.setXaDataSource(ds);

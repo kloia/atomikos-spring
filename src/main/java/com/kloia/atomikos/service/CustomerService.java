@@ -17,7 +17,6 @@ import java.util.Optional;
 public class CustomerService {
 
     private final CustomerRepository customerRepository;
-    private final AccountRepository accountRepository;
 
     public List<Customer> findAll() {
         return (List<Customer>) customerRepository.findAll();
