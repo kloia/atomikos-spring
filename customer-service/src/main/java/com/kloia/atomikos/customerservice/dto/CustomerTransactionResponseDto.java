@@ -11,7 +11,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class CustomerAccountCreateResponseDto {
+public class CustomerTransactionResponseDto {
 
     private Customer customer;
 

@@ -2,8 +2,12 @@ package com.kloia.atomikos.customerservice.service;
 
 import com.kloia.atomikos.core.model.account.AccountCore;
 import com.kloia.atomikos.core.repository.account.AccountCoreRepository;
-import com.kloia.atomikos.customerservice.dto.CustomerAccountCreateResponseDto;
+import com.kloia.atomikos.customerservice.dto.CustomerAddressAndAccountCoreUpdateRequestDto;
+import com.kloia.atomikos.customerservice.dto.CustomerTransactionResponseDto;
+import com.kloia.atomikos.customerservice.dto.CustomerAddressTransactionResponseDto;
 import com.kloia.atomikos.customerservice.model.customer.Customer;
+import com.kloia.atomikos.customerservice.model.customeraddress.CustomerAddress;
+import com.kloia.atomikos.customerservice.model.customeraddress.CustomerAddressId;
 import com.kloia.atomikos.customerservice.repository.customer.CustomerRepository;
 import com.kloia.atomikos.exception.NotFoundException;
 import com.kloia.atomikos.exception.SystemException;
@@ -21,36 +25,48 @@ public class TransactionalService {
     private final AccountCoreRepository accountCoreRepository;
     private final AccountCoreService accountCoreService;
     private final CustomerService customerService;
+    private final CustomerAddressService customerAddressService;
 
     @Transactional(transactionManager = "transactionManager")
-    public CustomerAccountCreateResponseDto createCustomerAndAccountCore() {
+    public CustomerTransactionResponseDto createCustomerAndAccountCore() {
         Customer savedCustomer = customerService.save();
         AccountCore savedAccountCore = accountCoreService.save();
-        return CustomerAccountCreateResponseDto.builder().customer(savedCustomer).accountCore(savedAccountCore).build();
+        return CustomerTransactionResponseDto.builder().customer(savedCustomer).accountCore(savedAccountCore).build();
     }
 
     @Transactional(transactionManager = "transactionManager")
-    public CustomerAccountCreateResponseDto getAccountAndAccountCore(Integer accountId, Integer accountCoreId) throws NotFoundException {
+    public CustomerTransactionResponseDto getAccountAndAccountCore(Integer accountId, Integer accountCoreId) throws NotFoundException {
         Customer customer = customerService.findById(accountId);
         AccountCore accountCore = accountCoreService.findById(accountCoreId);
-        return CustomerAccountCreateResponseDto.builder().customer(customer).accountCore(accountCore).build();
+        return CustomerTransactionResponseDto.builder().customer(customer).accountCore(accountCore).build();
     }
 
     @Transactional(transactionManager = "transactionManager", propagation = Propagation.REQUIRED)
-    public CustomerAccountCreateResponseDto createAccountCore(Integer accountId) throws NotFoundException {
+    public CustomerTransactionResponseDto createAccountCore(Integer accountId) throws NotFoundException {
         Customer customer = customerService.findById(accountId);
         AccountCore savedAccountCore = accountCoreService.save();
-        return CustomerAccountCreateResponseDto.builder().customer(customer).accountCore(savedAccountCore).build();
+        return CustomerTransactionResponseDto.builder().customer(customer).accountCore(savedAccountCore).build();
     }
 
     @Transactional(transactionManager = "transactionManager", propagation = Propagation.REQUIRED)
-    public CustomerAccountCreateResponseDto updateAccountAndAccountCore(Integer accountId, Integer accountCoreId) throws NotFoundException {
+    public CustomerTransactionResponseDto updateAccountAndAccountCore(Integer accountId, Integer accountCoreId) throws NotFoundException {
         Customer customer = customerService.findById(accountId);
         AccountCore accountCore = accountCoreService.findById(accountCoreId);
 
         Customer updatedCustomer = customerService.update(customer);
         AccountCore updatedAccountCore = accountCoreService.update(accountCore);
-        return CustomerAccountCreateResponseDto.builder().customer(updatedCustomer).accountCore(updatedAccountCore).build();
+        return CustomerTransactionResponseDto.builder().customer(updatedCustomer).accountCore(updatedAccountCore).build();
+    }
+
+    @Transactional(transactionManager = "transactionManager", propagation = Propagation.REQUIRED)
+    public CustomerAddressTransactionResponseDto updateCustomerAddressAndAccountCore(CustomerAddressAndAccountCoreUpdateRequestDto requestDto) throws NotFoundException {
+        CustomerAddressId customerAddressId = CustomerAddressId.builder().zipCode(requestDto.getZipCode()).id(requestDto.getId()).build();
+        CustomerAddress customerAddress = customerAddressService.findByCustomerAddressId(customerAddressId);
+        AccountCore accountCore = accountCoreService.findById(requestDto.getAccountCoreId());
+
+        CustomerAddress updatedCustomerAddress = customerAddressService.update(customerAddress);
+        AccountCore updatedAccountCore = accountCoreService.update(accountCore);
+        return CustomerAddressTransactionResponseDto.builder().customerAddress(updatedCustomerAddress).accountCore(updatedAccountCore).build();
     }
 
     @Transactional(transactionManager = "transactionManager", rollbackFor = SystemException.class)
