@@ -1,15 +1,14 @@
 package com.kloia.atomikos.accountservice.controller;
 
+import com.kloia.atomikos.accountservice.dto.AccountTransactionResponseDto;
 import com.kloia.atomikos.accountservice.model.account.Account;
+import com.kloia.atomikos.accountservice.service.TransactionalService;
 import com.kloia.atomikos.accountservice.service.AccountService;
 import com.kloia.atomikos.exception.NotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -19,6 +18,7 @@ import java.util.List;
 public class AccountController {
 
     private final AccountService accountService;
+    private final TransactionalService transactionalService;
 
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<List<Account>> getAccounts() {
