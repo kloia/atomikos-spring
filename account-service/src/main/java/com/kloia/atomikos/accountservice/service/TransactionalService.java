@@ -12,8 +12,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.math.BigDecimal;
-
 @Service
 @RequiredArgsConstructor
 public class TransactionalService {
@@ -24,10 +22,34 @@ public class TransactionalService {
     private final AccountCoreService accountCoreService;
 
     @Transactional(transactionManager = "transactionManager")
-    public AccountTransactionResponseDto create(Account account, AccountCore accountCore) {
-        Account savedAccount = accountRepository.save(account);
-        AccountCore savedAccountCore = accountCoreRepository.save(accountCore);
+    public AccountTransactionResponseDto getAccountAndAccountCore(Integer accountId, Integer accountCoreId) throws NotFoundException {
+        Account account = accountService.findById(accountId);
+        AccountCore accountCore = accountCoreService.findById(accountCoreId);
+        return AccountTransactionResponseDto.builder().account(account).accountCore(accountCore).build();
+    }
+
+    @Transactional(transactionManager = "transactionManager")
+    public AccountTransactionResponseDto createAccountAndAccountCore() {
+        Account savedAccount = accountService.save();
+        AccountCore savedAccountCore = accountCoreService.save();
         return AccountTransactionResponseDto.builder().account(savedAccount).accountCore(savedAccountCore).build();
+    }
+
+    @Transactional(transactionManager = "transactionManager", propagation = Propagation.REQUIRED)
+    public AccountTransactionResponseDto createAccountCore(Integer accountId) throws NotFoundException {
+        Account account = accountService.findById(accountId);
+        AccountCore savedAccountCore = accountCoreService.save();
+        return AccountTransactionResponseDto.builder().account(account).accountCore(savedAccountCore).build();
+    }
+
+    @Transactional(transactionManager = "transactionManager", propagation = Propagation.REQUIRED)
+    public AccountTransactionResponseDto updateAccountAndAccountCore(Integer accountId, Integer accountCoreId) throws NotFoundException {
+        Account account = accountService.findById(accountId);
+        AccountCore accountCore = accountCoreService.findById(accountCoreId);
+
+        Account updatedAccount = accountService.update(account);
+        AccountCore updatedAccountCore = accountCoreService.update(accountCore);
+        return AccountTransactionResponseDto.builder().account(updatedAccount).accountCore(updatedAccountCore).build();
     }
 
     @Transactional(transactionManager = "transactionManager", rollbackFor = SystemException.class)
@@ -35,20 +57,6 @@ public class TransactionalService {
         accountRepository.save(account);
         accountCoreRepository.save(accountCore);
         throw new SystemException();
-    }
-
-    @Transactional(transactionManager = "transactionManager")
-    public AccountTransactionResponseDto getAccount(Integer accountId, Integer accountCoreId) throws NotFoundException {
-        Account account = accountService.findById(accountId);
-        AccountCore accountCore = accountCoreService.findById(accountCoreId);
-        return AccountTransactionResponseDto.builder().account(account).accountCore(accountCore).build();
-    }
-
-    @Transactional(transactionManager = "transactionManager", propagation = Propagation.REQUIRED)
-    public AccountTransactionResponseDto saveAccountAndAccountCore(Integer accountId) throws NotFoundException {
-        Account account = accountService.findById(accountId);
-        AccountCore savedAccountCore = accountCoreService.save();
-        return AccountTransactionResponseDto.builder().account(account).accountCore(savedAccountCore).build();
     }
 
 }
