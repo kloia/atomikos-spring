@@ -6,10 +6,7 @@ import com.kloia.atomikos.customerservice.service.CustomerService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -30,6 +27,12 @@ public class CustomerController {
     public ResponseEntity<Customer> getCustomerById(@PathVariable Integer customerId) throws NotFoundException {
         Customer customer = customerService.findById(customerId);
         return ResponseEntity.ok(customer);
+    }
+
+    @PostMapping(produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<Customer> createCustomer() {
+        Customer account = customerService.save();
+        return ResponseEntity.ok(account);
     }
 
 }

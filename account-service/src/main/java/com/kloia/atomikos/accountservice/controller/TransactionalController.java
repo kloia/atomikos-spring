@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping(value = "/account-transactions")
 @RequiredArgsConstructor
-public class AccountTransactionController {
+public class TransactionalController {
 
     private final TransactionalService transactionalService;
 
