@@ -1,0 +1,226 @@
+{
+	"info": {
+		"_postman_id": "ee5b5835-9189-48c5-904d-25543e2fede9",
+		"name": "Atomikos",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Account",
+			"item": [
+				{
+					"name": "create Account",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": "http://localhost:8080/accounts"
+					},
+					"response": []
+				},
+				{
+					"name": "get all Accounts",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": "http://localhost:8080/accounts"
+					},
+					"response": []
+				},
+				{
+					"name": "get Account",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": "http://localhost:8080/accounts/82"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Customer",
+			"item": [
+				{
+					"name": "create Customer",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": "http://localhost:8081/customers"
+					},
+					"response": []
+				},
+				{
+					"name": "get all customer",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": "http://localhost:8081/customers"
+					},
+					"response": []
+				},
+				{
+					"name": "get Customer",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": "http://localhost:8081/customers/41"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "CustomerAddress",
+			"item": [
+				{
+					"name": "create CustomerAddress",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"id\": 2,\n    \"zipCode\": 12345\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "http://localhost:8081/customer-address"
+					},
+					"response": []
+				},
+				{
+					"name": "get all CustomerAddress",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": "http://localhost:8081/customer-address"
+					},
+					"response": []
+				},
+				{
+					"name": "get CustomerAddress",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"id\": 2,\n    \"zipCode\": 12345\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "http://localhost:8081/customer-address/find-customer-address"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "CustomerTransactional",
+			"item": [
+				{
+					"name": "create Customer and AccountCore",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": "http://localhost:8081/customer-transactions"
+					},
+					"response": []
+				},
+				{
+					"name": "get Customer and AccountCore",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": "http://localhost:8081/customer-transactions/101/141"
+					},
+					"response": []
+				},
+				{
+					"name": "get Customer And createa AccountCore",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": "http://localhost:8081/customer-transactions/1/create-account-core"
+					},
+					"response": []
+				},
+				{
+					"name": "update Customer and AccountCore",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"id\": 1,\n    \"zipCode\": \"123\",\n    \"accountCoreId\": 182\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "http://localhost:8081/customer-transactions/update/customer-address/account-core"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "AccountTransactional",
+			"item": [
+				{
+					"name": "get Account And AccountCore",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": "http://localhost:8080/account-transactions/81/81"
+					},
+					"response": []
+				},
+				{
+					"name": "get Account And create AccountCore",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": "http://localhost:8080/account-transactions/81/create-account-core"
+					},
+					"response": []
+				},
+				{
+					"name": "create Account And AccountCore",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": "http://localhost:8080/account-transactions"
+					},
+					"response": []
+				},
+				{
+					"name": "update Account and Account Core",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"url": "http://localhost:8080/account-transactions/81/81"
+					},
+					"response": []
+				},
+				{
+					"name": "bulk create Account and AccountCore",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": "http://localhost:8080/account-transactions/bulk-create"
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}
