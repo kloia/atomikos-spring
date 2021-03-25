@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -24,9 +25,9 @@ public class CustomerAddressService {
     }
 
     @Transactional(transactionManager = "transactionManager", propagation = Propagation.REQUIRED)
-    public CustomerAddress save() {
+    public CustomerAddress save(CustomerAddressId customerAddressId) {
         CustomerAddress customerAddress = CustomerAddress.builder()
-                .id(CustomerAddressId.builder().zipCode("123").id(1).build())
+                .id(customerAddressId)
                 .neighborhood("Merkez")
                 .street("100.Sokak")
                 .build();
@@ -37,5 +38,10 @@ public class CustomerAddressService {
     public CustomerAddress update(CustomerAddress customerAddress) {
         customerAddress.setNeighborhood("Cumhuriyet");
         return customerAddressRepository.save(customerAddress);
+    }
+
+    @Transactional(transactionManager = "transactionManager", propagation = Propagation.REQUIRED)
+    public List<CustomerAddress> getAllCustomer() {
+        return (List<CustomerAddress>) customerAddressRepository.findAll();
     }
 }

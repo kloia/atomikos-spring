@@ -1,6 +1,5 @@
 package com.kloia.atomikos.customerservice.configuration;
 
-import com.kloia.atomikos.core.configuration.AccountCoreDataSourceConfiguration;
 import oracle.jdbc.xa.client.OracleXADataSource;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.autoconfigure.jdbc.DataSourceProperties;
@@ -9,7 +8,6 @@ import org.springframework.boot.jta.atomikos.AtomikosDataSourceBean;
 import org.springframework.boot.orm.jpa.EntityManagerFactoryBuilder;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.Import;
 import org.springframework.context.annotation.Primary;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
@@ -85,6 +83,9 @@ public class CustomerDataSourceConfiguration {
         AtomikosDataSourceBean xaDataSource = new AtomikosDataSourceBean();
         xaDataSource.setXaDataSource(ds);
         xaDataSource.setUniqueResourceName("xa_customer");
+        xaDataSource.setMinPoolSize(4);
+        xaDataSource.setMaxPoolSize(8);
+        xaDataSource.setMaxIdleTime(10);
         return xaDataSource;
     }
 

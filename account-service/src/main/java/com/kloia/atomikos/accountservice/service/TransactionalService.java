@@ -36,6 +36,20 @@ public class TransactionalService {
     }
 
     @Transactional(transactionManager = "transactionManager", propagation = Propagation.REQUIRED)
+    public void bulkCreateAccountAndAccountCore() throws InterruptedException, SystemException {
+        int i = 0;
+        do {
+            i++;
+            accountService.save();
+            Thread.sleep(1000);
+            if (i == 99) {
+                throw new SystemException();
+            }
+            accountCoreService.save();
+        } while (i != 100);
+    }
+
+    @Transactional(transactionManager = "transactionManager", propagation = Propagation.REQUIRED)
     public AccountTransactionResponseDto createAccountCore(Integer accountId) throws NotFoundException {
         Account account = accountService.findById(accountId);
         AccountCore savedAccountCore = accountCoreService.save();

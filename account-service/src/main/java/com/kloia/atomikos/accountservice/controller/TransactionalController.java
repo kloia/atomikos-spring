@@ -3,7 +3,9 @@ package com.kloia.atomikos.accountservice.controller;
 import com.kloia.atomikos.accountservice.dto.AccountTransactionResponseDto;
 import com.kloia.atomikos.accountservice.service.TransactionalService;
 import com.kloia.atomikos.exception.NotFoundException;
+import com.kloia.atomikos.exception.SystemException;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -29,13 +31,19 @@ public class TransactionalController {
         return ResponseEntity.ok(account);
     }
 
+    @PostMapping(value = "/bulk-create", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<Object> bulkCreateAccountAndAccountCore() throws InterruptedException, SystemException {
+        transactionalService.bulkCreateAccountAndAccountCore();
+        return new ResponseEntity<>(HttpStatus.CREATED);
+    }
+
     @PostMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Object> createAccountAndAccountCore() {
         AccountTransactionResponseDto responseDto = transactionalService.createAccountAndAccountCore();
         return ResponseEntity.ok(responseDto);
     }
 
-    @PostMapping(value = "/{accountId}/create-core", produces = MediaType.APPLICATION_JSON_VALUE)
+    @PostMapping(value = "/{accountId}/create-account-core", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<AccountTransactionResponseDto> createAccountCore(
             @PathVariable("accountId") Integer accountId
     ) throws NotFoundException {

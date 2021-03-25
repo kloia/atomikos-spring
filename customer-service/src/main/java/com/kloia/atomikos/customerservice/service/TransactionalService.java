@@ -35,7 +35,7 @@ public class TransactionalService {
     }
 
     @Transactional(transactionManager = "transactionManager")
-    public CustomerTransactionResponseDto getAccountAndAccountCore(Integer accountId, Integer accountCoreId) throws NotFoundException {
+    public CustomerTransactionResponseDto getCustomerAndAccountCore(Integer accountId, Integer accountCoreId) throws NotFoundException {
         Customer customer = customerService.findById(accountId);
         AccountCore accountCore = accountCoreService.findById(accountCoreId);
         return CustomerTransactionResponseDto.builder().customer(customer).accountCore(accountCore).build();
@@ -49,7 +49,7 @@ public class TransactionalService {
     }
 
     @Transactional(transactionManager = "transactionManager", propagation = Propagation.REQUIRED)
-    public CustomerTransactionResponseDto updateAccountAndAccountCore(Integer accountId, Integer accountCoreId) throws NotFoundException {
+    public CustomerTransactionResponseDto updateCustomerAndAccountCore(Integer accountId, Integer accountCoreId) throws NotFoundException {
         Customer customer = customerService.findById(accountId);
         AccountCore accountCore = accountCoreService.findById(accountCoreId);
 

@@ -82,6 +82,9 @@ public class CustomerAddressDataSourceConfiguration {
         AtomikosDataSourceBean xaDataSource = new AtomikosDataSourceBean();
         xaDataSource.setXaDataSource(ds);
         xaDataSource.setUniqueResourceName("xa_customer_address");
+        xaDataSource.setMinPoolSize(4);
+        xaDataSource.setMaxPoolSize(8);
+        xaDataSource.setMaxIdleTime(10);
         return xaDataSource;
     }
 

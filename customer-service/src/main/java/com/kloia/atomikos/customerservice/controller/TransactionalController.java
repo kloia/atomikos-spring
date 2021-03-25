@@ -24,15 +24,15 @@ public class TransactionalController {
     }
 
     @GetMapping(value = "/{customerId}/{accountCoreId}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<CustomerTransactionResponseDto> getAccountAndAccountCore(
+    public ResponseEntity<CustomerTransactionResponseDto> getCustomerAndAccountCore(
             @PathVariable("customerId") Integer accountId,
             @PathVariable("accountCoreId") Integer accountCoreId
     ) throws NotFoundException {
-        CustomerTransactionResponseDto customerTransactionResponseDto = transactionalService.getAccountAndAccountCore(accountId, accountCoreId);
+        CustomerTransactionResponseDto customerTransactionResponseDto = transactionalService.getCustomerAndAccountCore(accountId, accountCoreId);
         return ResponseEntity.ok(customerTransactionResponseDto);
     }
 
-    @PostMapping(value = "/{customerId}/create-core", produces = MediaType.APPLICATION_JSON_VALUE)
+    @PostMapping(value = "/{customerId}/create-account-core", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<CustomerTransactionResponseDto> createAccountCore(
             @PathVariable("customerId") Integer accountId
     ) throws NotFoundException {
@@ -41,16 +41,16 @@ public class TransactionalController {
     }
 
     @PutMapping(value = "/{customerId}/{accountCoreId}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<CustomerTransactionResponseDto> updateAccountAndAccountCore(
+    public ResponseEntity<CustomerTransactionResponseDto> updateCustomerAndAccountCore(
             @PathVariable("customerId") Integer accountId,
             @PathVariable("accountCoreId") Integer accountCoreId
     ) throws NotFoundException {
-        CustomerTransactionResponseDto account = transactionalService.updateAccountAndAccountCore(accountId, accountCoreId);
+        CustomerTransactionResponseDto account = transactionalService.updateCustomerAndAccountCore(accountId, accountCoreId);
         return ResponseEntity.ok(account);
     }
 
     @PostMapping(value = "/update/customer-address/account-core", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<CustomerAddressTransactionResponseDto> updateAccountAndAccountCore(
+    public ResponseEntity<CustomerAddressTransactionResponseDto> updateCustomerAddressAndAccountCore(
             @RequestBody CustomerAddressAndAccountCoreUpdateRequestDto requestDto
     ) throws NotFoundException {
         CustomerAddressTransactionResponseDto account = transactionalService.updateCustomerAddressAndAccountCore(requestDto);
